@@ -50,7 +50,7 @@ async function getTask(website) {
   } else {
     const browser = await puppeteer.launch({
       timeout: 0,
-      args: ["--no-sandbox", "--disable-setuid-sand"],
+      args: ["--no-sandbox", "--disable-setuid-sand", "--single-process", "--no-zygote"],
       headless: "new",
       executablePath:
         process.env.NODE_ENV === "production"
