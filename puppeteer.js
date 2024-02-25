@@ -19,7 +19,7 @@ let urls = [
   //"https://newsfern.com/a-comprehensive-guide-to-the-best-online-degree-programs-for-business-in-the-usa/",
   "https://networthohub.com/best-university-for-online-psychology-degree-programs-in-usa/",
   "https://finance.djbhojpuriking.in/2023/11/01/how-to-make-money-online-with-binance/",
-  "https://f1.djjatin.in/index.php/2023/11/01/how-to-make-money-online-with-binance/",
+  //"https://f1.djjatin.in/index.php/2023/11/01/how-to-make-money-online-with-binance/",
   "https://f1.djbiharmasti.in/index.php/2023/11/01/how-to-make-money-online-with-binance/",
   "https://adsyoga.com/job/best-student-credit-cards-in-february-2024/",
 ];

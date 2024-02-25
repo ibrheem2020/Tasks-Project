@@ -945,9 +945,9 @@ let adsWithAbout = {
     about: "https://kimsurance.com/about-us/",
   },
   // 50: {
-  //   site: "",
-  //   contact: "",
-  //   about: "",
+  //   site: "https://plxbusiness.com/?gclid=EAIaIQobChMIm4j-ofvFhAMVJaCFCh1FeQVXEAEYASAAEgIrVPD_BwE",
+  //   contact: "https://plxbusiness.com/contact",
+  //   about: "https://plxbusiness.com/about",
   // },
   // 50: {
   //   site: "",

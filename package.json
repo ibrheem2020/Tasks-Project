@@ -7,5 +7,16 @@
     "method-override": "^3.0.0",
     "prompt-sync": "^4.2.0",
     "puppeteer": "^21.5.2"
-  }
+  },
+  "name": "tasks-project",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

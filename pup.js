@@ -205,8 +205,7 @@ async function getTask(website) {
 
         const checkjQuery = await page.evaluate(() => typeof jQuery === "function");
         if (!checkjQuery) {
-          await browser.close();
-          return;
+          throw new Error("jQuery is not Defined!");
         }
         //await page.waitForTimeout(2000);
 
@@ -273,10 +272,11 @@ async function getTask(website) {
     } catch (err) {
       //console.log(err);
       response.errorName = err.name || err.message;
+    } finally {
+      await browser.close();
+      return response;
     }
     //console.log(response);
-    await browser.close();
-    return response;
   }
 }
 module.exports = getTask;
