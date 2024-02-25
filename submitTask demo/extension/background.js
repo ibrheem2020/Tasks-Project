@@ -4,7 +4,7 @@ chrome.webNavigation.onCompleted.addListener(function (details) {
       chrome.tabs.sendMessage(details.tabId, { message: "Tab opened!" }, async function (response) {
         console.log(response);
         if (response) {
-          let localHostedUrl = "http://localhost:3000/";
+          let localHostedUrl = "https://tasks-project-xsms.onrender.com/";
           if (response.type === "pcodeUrl") {
             localHostedUrl = localHostedUrl + "getPcode";
           } else {

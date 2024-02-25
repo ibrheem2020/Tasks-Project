@@ -49,6 +49,7 @@ async function getTask(website) {
     return response;
   } else {
     const browser = await puppeteer.launch({
+      timeout: 0,
       args: ["--no-sandbox", "--disable-setuid-sand"],
       headless: "new",
       executablePath:

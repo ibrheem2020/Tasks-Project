@@ -6,7 +6,7 @@ const tasksProofs = {
   },
   "http://tinyurl.com/mw5dfesm": {
     proof_1: "site",
-    vproof: "MoUKTi7",
+    vproof: "Siua58K",
     //codePage: "https://earning.inquiz.in/10-tips-for-studying-in-the-united-states/",
   },
 
@@ -114,7 +114,7 @@ const tasksProofs = {
   "http://tinyurl.com/f1djbihar": {
     proof_1: "site",
     proof_2: "twopages",
-    proof_3: "#FINANCE9000#",
+    proof_3: "#FINANCE9199#",
     //codePage: "https://f1.djbiharmasti.in/index.php/2023/11/01/how-to-make-money-online-with-binance/",
     about: true,
   },
