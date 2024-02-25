@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-require("dotenv");
+require("dotenv").config();
 
 let sitesWithNavToCode = [
   "erponline.damrilogistics.co.id",
@@ -49,6 +49,7 @@ async function getTask(website) {
     return response;
   } else {
     const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sand"],
       headless: "new",
       executablePath:
         process.env.NODE_ENV === "production"
