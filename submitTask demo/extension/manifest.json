@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Tasky",
+  "version": "1.0",
+  "description": "Make doing tasks easier",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "permissions": ["activeTab", "storage", "tabs", "webNavigation"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
