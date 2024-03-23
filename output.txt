@@ -1,1 +1,7 @@
-{}
+{
+  "https://brusselstribunal.org/unlocking-the-data-vault-embark-on-a-journey-into-the-world-of-big-data-analytics/": "Your Code is - AUTF786K",
+  "https://revolverrani.com/enhancing-business-growth-with-sales-lead-management-software/": "Your Code is - U786MK",
+  "https://ratu.rajatender.com/navigating-health-insurance-in-the-united-states-coverage-challenges-and-reforms/": "Code : 7WH9J8WE",
+  "https://ezwontech.com/google-big-query/": "Your Code is - 87609",
+  "https://earn.inquiz.in/job/10-tips-for-studying-in-the-united-states/": "googletag.cmd.push(function() { googletag.display('div-code-4'); });\n  \n\nN67awrL\n\n  \n    googletag.cmd.push(function() { googletag.display('div-code-7'); });"
+}

@@ -4,7 +4,8 @@ const e = require("express");
 
 let urls = [
   "https://brusselstribunal.org/unlocking-the-data-vault-embark-on-a-journey-into-the-world-of-big-data-analytics/",
-  "https://invest.toriqa.com/the-5-greatest-benefits-of-crm-platforms/",
+  "https://revolverrani.com/enhancing-business-growth-with-sales-lead-management-software/",
+  //"https://invest.toriqa.com/the-5-greatest-benefits-of-crm-platforms/",
   "https://ratu.rajatender.com/navigating-health-insurance-in-the-united-states-coverage-challenges-and-reforms/",
   "https://ezwontech.com/google-big-query/",
   "https://earn.inquiz.in/job/10-tips-for-studying-in-the-united-states/",

@@ -4,6 +4,7 @@ const ejs = require("ejs");
 const path = require("path");
 const methodOverride = require("method-override");
 const getTask = require("./pup");
+const getStaticCode = require("./staticCode");
 const bodyParser = require("body-parser");
 const tasksProofs = require("./tasks");
 const port = process.env.PORT || 3000;
@@ -72,13 +73,24 @@ app.post("/getPcode", async (req, res) => {
   }
 });
 
-app.post("/getFixedTaskData", (req, res) => {
+app.post("/getFixedTaskData", async (req, res) => {
   const { taskUrlResponse } = req.body;
 
   let dataObj = getProperty(tasksProofs, taskUrlResponse);
   if (dataObj) {
+    if (taskUrlResponse === "https://bit.ly/48o80lt") {
+      const response = await getStaticCode(
+        "https://www.auto.or.id/in-search-of-wheels-craigslist-cars-charlotte-nc-has-you-covered/",
+        "#kode",
+        "THE CODE: "
+      );
+      if (response && response.length === 13) {
+        dataObj.copyRight = response;
+      } else {
+        dataObj.copyRight = "";
+      }
+    }
     res.json({ success: true, dataObj });
-    //condition to not send the code page
   }
   // else if (dataObj.codePage) {
   //   let { codePage, ...filteredObject } = dataObj;

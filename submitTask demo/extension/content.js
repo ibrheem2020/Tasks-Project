@@ -16,7 +16,7 @@ let ads = {
     contact: "https://www.hotelbardo.mx/#contact",
   },
   5: {
-    site: "https://www.northparkave.com/?gclid=InMktGoogle&gclid=EAIaIQobChMIueGyx9WlgwMVRmUVCB0hNQb9EAEYASAAEgI_H_D_BwE",
+    site: "https://www.northparkave.com/?gclid=EAIaIQobChMIueGyx9WlgwMVRmUVCB0hNQb9EAEYASAAEgI_H_D_BwE",
     contact: "https://www.northparkave.com/en/apartments/contactus.html",
   },
   6: {
@@ -950,9 +950,9 @@ let adsWithAbout = {
   //   about: "https://plxbusiness.com/about",
   // },
   // 50: {
-  //   site: "",
-  //   contact: "",
-  //   about: "",
+  //   site: "https://www.attokyo.com/?utm_source=gdn&utm_medium=cpc&utm_campaign=gdn_en_uk&gclid=EAIaIQobChMIrKP3svTUhAMV2UT2CB34DwlhEAEYASAAEgIoevD_BwE",
+  //   contact: "https://www.attokyo.com/contact/info/index.php",
+  //   about: "https://www.attokyo.com/company/index.html",
   // },
   // 50: {
   //   site: "",
@@ -1020,34 +1020,13 @@ let adsWithAbout = {
   //   about: "",
   // },
 };
+let tasksWaitingToBeSubmitted = 0;
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
   //console.log(localStorage.getItem("count"));
   if (request.message === "Tab opened!") {
     console.log("Task tab Opened");
-    // if (!localStorage.count) {
-    //   let accsArray = [
-    //     "IdrisM",
-    //     "masterxd",
-    //     "youssefderfa",
-    //     "dopeman69",
-    //     "hamoudy1",
-    //     "nabi90",
-    //     "MrJullio",
-    //     "onlykero",
-    //     "ibrheemp201",
-    //     "saad2083",
-    //     "belaaal",
-    //     "yanSiHan2",
-    //   ];
-    //   let searchValue = document.getElementsByClassName("profile-dropdown__name")[0].textContent;
-    //   let index = accsArray.findIndex((element) => searchValue.includes(element));
-    //   index = index * 2 + new Date().getDate();
 
-    //   localStorage.setItem("count", index);
-    // }
     let taskUrl = getTaskUrl();
-
-    console.log(taskUrl);
     let taskUrlResponse = taskUrl.pcodeUrl ? taskUrl.pcodeUrl : taskUrl.fixedDataUrl;
     console.log(taskUrlResponse);
     if (taskUrl.pcodeUrl) {
@@ -1058,8 +1037,9 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
       console.log("No matched task link was found in this page!");
     }
   } else if (request.message === "pcodeRecieved") {
-    console.log(request.data);
+    let timeout = getTimeout();
 
+    console.log(request.data);
     let pcode = request.data.pcode;
     let vproof = request.data.vproof;
     let randomAdNum = Math.floor(Math.random() * Object.keys(ads).length) + 1;
@@ -1071,7 +1051,7 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
       if (vproof && getProof(0)) {
         document.querySelector("#vproof").value = vproof;
       }
-      setTimeout(sub, Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000);
+      setTimeout(sub(timeout), 1000);
     } else if (checkContactInProofText(1)) {
       getProof(3).value = pcode;
       getProof(2).value = replaceGclid(ads[randomAdNum].site);
@@ -1079,23 +1059,27 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
       if (vproof && getProof(0)) {
         document.querySelector("#vproof").value = vproof;
       }
-      setTimeout(sub, Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000);
+      setTimeout(sub(timeout), 1000);
     } else {
       console.log(request.data);
       placeProofs(request.data, ads);
-      setTimeout(sub, Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000);
+      setTimeout(sub(timeout), 1000);
     }
   } else if (request.message === "dataObjRecieved") {
+    let timeout = getTimeout();
     let { dataObj } = request.data;
 
     console.log(dataObj);
     if (dataObj.adProof) {
       const searchText = {
+        post_4th: "4th post",
         post_5th: "5th post",
         post_6th: "6th post",
         post_7th: "7th post",
         post_8th: "8th post",
         post_9th: "9th post",
+        paragraph_7: "Last paragraph of the 7th",
+        paragraph_8: "Last paragraph of the 8th",
         paragraph_9: "Last paragraph of the 9h",
         paragraph_10: "Last paragraph of the 10th",
         post_10th: "URL of the 10th post",
@@ -1116,33 +1100,20 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
         });
       });
       dataObj = newdataObj;
+    } else if (dataObj.copyRight) {
+      let copyrightDataObj = {};
+      copyrightDataObj.proof_1 = dataObj[`post_${Math.floor(Math.random() * 10) + 1}`];
+      copyrightDataObj.proof_2 = dataObj[`post_${Math.floor(Math.random() * 10) + 1}`];
+      copyrightDataObj.proof_3 = dataObj["copyRight"];
+      copyrightDataObj.proof_4 = dataObj["ad"];
+      dataObj = copyrightDataObj;
     }
     console.log(dataObj);
-    // if (!localStorage.count) {
-    //   let accsArray = [
-    //     "mohamedhassan5",
-    //     "masterxd",
-    //     "youssefderfa",
-    //     "dopeman69",
-    //     "hamoudy1",
-    //     "masteryi100",
-    //     "marioplayer1",
-    //     "ahmed20142",
-    //     "onlykero",
-    //     "ibrheemp201",
-    //   ];
-    //   let searchValue = document.getElementsByClassName("profile-dropdown__name")[0].textContent;
-    //   let index = accsArray.findIndex((element) => searchValue.includes(element));
-    //   index = index + new Date().getDate() + 1;
-    //   localStorage.setItem("count", index);
-    // }
-    // let storedValue = parseInt(localStorage.getItem("count"));
-    // let newValue = (storedValue + 1).toString();
-    // localStorage.setItem("count", newValue);
+
     let randomAdNum = Math.floor(Math.random() * Object.keys(ads).length) + 1;
 
     for (let key in dataObj) {
-      let terms = ["site", "contact", "both"];
+      let terms = ["site", "__contact", "both"];
       let value = dataObj[key];
       let foundTerm = null;
 
@@ -1156,7 +1127,7 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
       if (foundTerm !== null) {
         if (foundTerm === "site") {
           dataObj[key] = replaceGclid(ads[randomAdNum].site);
-        } else if (foundTerm === "contact") {
+        } else if (foundTerm === "__contact") {
           dataObj[key] = ads[randomAdNum].contact;
         } else {
           dataObj[key] = replaceGclid(ads[randomAdNum].site) + "\n" + ads[randomAdNum].contact;
@@ -1184,13 +1155,13 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
     } else {
       console.error("Number of textareas does not match the number of values");
     }
-    setTimeout(sub, Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000);
+    setTimeout(sub(timeout), 1000);
   } else if (request.message === "dataObjWithAboutRecieved") {
     const { dataObj } = request.data;
-
+    let timeout = getTimeout();
     console.log(dataObj);
     placeProofs(dataObj, adsWithAbout);
-    setTimeout(sub, Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000);
+    setTimeout(sub(timeout), 1000);
   } else if (request.message === "can't get code") {
     console.log(request);
   } else if (request.action === "reset") {
@@ -1201,6 +1172,108 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
     setProofs(1);
   } else if (request.action === "style2") {
     setProofs(2);
+  } else if (request.action === "oneDayTasks") {
+    let x = document.getElementsByClassName("is-premium");
+    let l = document.querySelectorAll(".jobs__item .jobs__item-cell .symbol--list");
+    let n = [];
+    l.forEach((element) => {
+      let p = element.parentElement.parentElement.href;
+      n.push(p);
+    });
+    let y = Array.from(x);
+    let z = y.filter((e) => {
+      if (e.children[5].textContent === "1") {
+        n.push(e.href);
+      }
+    });
+    chrome.runtime.sendMessage({ action: "openOneDayTasks", urls: n });
+  } else if (request.action === "search") {
+    let rates = request.rates;
+    let speed = request.speed;
+    const url = "https://sproutgigs.com/ajax.php";
+    let searchFound = false;
+    function fetchData(terms, sortType = "NEWEST", retryCount = 2000) {
+      if (searchFound) {
+        return; // Stop searching if a match is already found
+      }
+      const formData = new URLSearchParams();
+      formData.append("action", "load_more_jobs");
+      formData.append("layout", "compact");
+      formData.append("limit", 100);
+      formData.append("max", 4);
+      formData.append("page", 1);
+      formData.append("category", 10);
+      formData.append("empstats", "jobs-high");
+      formData.append("cost", "0.03;0.03");
+      fetch(url, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.success && data.data && data.data.html) {
+            const htmlValue = data.data.html;
+            for (let term of terms) {
+              if (htmlValue.includes(term) && !searchFound) {
+                document.querySelector(".jobs__items").innerHTML = htmlValue;
+                let n = [];
+                let elementsWithoutPremium = document.querySelectorAll(
+                  ".jobs__item.jobs__item--client-starter:not(.is-premium)"
+                );
+                elementsWithoutPremium.forEach(function (element) {
+                  let rate = element.childNodes[21].textContent.trim();
+                  let searchRate = rates;
+                  if (searchRate.some((item) => rate.includes(item))) {
+                    n.push(element.href);
+                  }
+                });
+                chrome.runtime.sendMessage({ action: "openUrls", urls: n });
+                searchFound = true;
+                let timeout = n.length * 60000 + 60000;
+                setTimeout(() => {
+                  searchFound = false;
+                  console.log(timeout);
+                  fetchData(rates);
+                }, timeout);
+                console.log("Done...");
+                console.log(`🔥%c${term} Was found! Total:${n.length} || ✅`, "color: green");
+              }
+            }
+            const nextSortType = sortType === "NEWEST" ? "COST" : "NEWEST";
+            console.log(`🔎 ${terms}`);
+            if (!searchFound && retryCount > 0) {
+              setTimeout(() => fetchData(rates, nextSortType, retryCount - 1), speed || 60000);
+            } else {
+              console.log("Search already found or exceeded maximum retry attempts");
+            }
+          } else {
+            if (!searchFound && retryCount > 0) {
+              console.error("Invalid response format");
+              setTimeout(() => fetchData(rates), 60000);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          if (!searchFound && retryCount > 0) {
+            setTimeout(() => fetchData(rates, sortType, retryCount - 1), 5000);
+          } else {
+            console.error("Exceeded maximum retry attempts");
+          }
+        });
+    }
+
+    // Iterate through each search value
+    // Call the function to initiate the request with the default sort type (NEWEST) for each search value
+    fetchData(rates);
   } else {
     setProofs(request.proofBoxNum);
   }
@@ -1287,7 +1360,9 @@ function getTaskUrl() {
     fixedDataUrl: null,
   };
   let instructionsText = getInstructionsText();
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  // const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
+
   let match;
   while ((match = urlRegex.exec(instructionsText)) !== null) {
     const url = match[0].trim();
@@ -1302,9 +1377,24 @@ function getTaskUrl() {
       }
     }
   }
+  if (!result.pcodeUrl) {
+    function extractTargetUrl(instructionsText) {
+      const urlRegex2 = /system\.imigrasilampung\.co\.id[^\s)]*/;
+      const match = instructionsText.match(urlRegex2);
+      return match ? match[0] : null;
+    }
+    let specialUrl = extractTargetUrl(instructionsText);
+    if (specialUrl) {
+      result.pcodeUrl = `https:/${specialUrl}`;
+    }
+  }
   return result;
 }
-
+function getTimeout() {
+  let storedTimeout = parseInt(localStorage.getItem("tasksWaitingToBeSubmitted") || 1);
+  localStorage.setItem("tasksWaitingToBeSubmitted", (storedTimeout + 1).toString());
+  return storedTimeout;
+}
 function checkContactInProofText(id) {
   let textareaId = `proof_${id}`;
   let label = document.querySelector('label[for="' + textareaId + '"]');
@@ -1318,108 +1408,102 @@ function checkContactInProofText(id) {
   }
 }
 
-function sub() {
-  if (!localStorage.tasksWaitingToBeSubmitted) {
-    localStorage.setItem("tasksWaitingToBeSubmitted", "1");
-  }
-  //let tasksWaitingToBeSubmitted = parseInt(localStorage.getItem("tasksWaitingToBeSubmitted"));
+function sub(storedTimeout) {
+  // let tasksWaitingToBeSubmitted =
+  //   JSON.parse(localStorage.getItem("tasksWaitingToBeSubmitted")) || [];
+  // let storedTimeout = tasksWaitingToBeSubmitted.length;
+  // let id = Date.now();
+  // tasksWaitingToBeSubmitted.push(id);
+  // localStorage.setItem("tasksWaitingToBeSubmitted", JSON.stringify(tasksWaitingToBeSubmitted));
 
-  //let storedTimeout = parseInt(localStorage.getItem("tasksWaitingToBeSubmitted"));
   const reset = "\x1b[0m";
   const green = "\x1b[32m";
 
-  function getTaskNumWithRdTimeout(callback) {
+  let millisecondsUntilTarget = storedTimeout * 1000 * 60;
+  console.log("Stored Timeout:", storedTimeout);
+  // Use millisecondsUntilTarget in another setTimeout
+  setTimeout(function () {
+    console.log("Second setTimeout executed after", millisecondsUntilTarget, "milliseconds");
+  }, millisecondsUntilTarget);
+
+  console.log(
+    `${green}Task will be submitted in: ${
+      millisecondsUntilTarget / 1000 / 60
+    } Mins - ${new Date().getHours()}:${new Date().getMinutes()}${reset}`
+  );
+
+  let submitButton = document.getElementById("submit-proof-btn");
+  //let millisecondsUntilTarget = storedTimeout * 1000 * 60;
+  //let newValue = (storedTimeout + 1).toString();
+  //localStorage.setItem("tasksWaitingToBeSubmitted", (storedTimeout + 1).toString());
+  //localStorage.setItem("timeout", newValue);
+
+  setTimeout(function () {
+    if (!localStorage.ipIssue) {
+      submitButton.click();
+    } else {
+      new Notification("A proxy was detected");
+      alert("Proxy Error");
+    }
     setTimeout(function () {
-      let storedTimeout = parseInt(localStorage.getItem("tasksWaitingToBeSubmitted"));
-      localStorage.setItem("tasksWaitingToBeSubmitted", (storedTimeout + 1).toString());
-      callback(storedTimeout);
-    }, Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000);
-  }
-  getTaskNumWithRdTimeout(function (storedTimeout) {
-    let millisecondsUntilTarget = storedTimeout * 1000 * 60;
-    console.log(storedTimeout);
+      let submitMessageDivErr = document.getElementsByClassName(
+        "swal2-popup swal2-modal swal2-icon-error swal2-show"
+      )[0];
+      let submitMessageDivSuccess = document.getElementsByClassName(
+        "swal2-popup swal2-modal swal2-icon-success swal2-show"
+      )[0];
 
-    // Use millisecondsUntilTarget in another setTimeout
-    setTimeout(function () {
-      console.log("Second setTimeout executed after", millisecondsUntilTarget, "milliseconds");
-    }, millisecondsUntilTarget);
-
-    console.log(
-      `${green}Task will be submitted in: ${storedTimeout} Mins - ${new Date().getHours()}:${new Date().getMinutes()}${reset}`
-    );
-
-    let submitButton = document.getElementById("submit-proof-btn");
-    //let millisecondsUntilTarget = storedTimeout * 1000 * 60;
-    //let newValue = (storedTimeout + 1).toString();
-    //localStorage.setItem("tasksWaitingToBeSubmitted", (storedTimeout + 1).toString());
-    //localStorage.setItem("timeout", newValue);
-
-    setTimeout(function () {
-      if (!localStorage.ipIssue) {
-        submitButton.click();
-      } else {
-        new Notification("A proxy was detected");
-        alert("Proxy Error");
-      }
-      setTimeout(function () {
-        let submitMessageDivErr = document.getElementsByClassName(
-          "swal2-popup swal2-modal swal2-icon-error swal2-show"
-        )[0];
-        let submitMessageDivSuccess = document.getElementsByClassName(
-          "swal2-popup swal2-modal swal2-icon-success swal2-show"
-        )[0];
-
-        if (!submitMessageDivErr && submitButton.disabled && !submitMessageDivSuccess) {
-          submitButton.disabled = false;
-          deacreaseQueue();
-          sub();
-        } else if (
-          (submitMessageDivErr &&
-            submitMessageDivErr.innerText ===
-              "Whoops!\nYou have already completed this job. Please, choose another.\nOK") ||
-          (submitMessageDivErr &&
-            submitMessageDivErr.innerText ===
-              "Whoops!\nThis job is no longer available. Please, choose another.\nOK")
-        ) {
-          deacreaseQueue();
-          window.close();
-        } else if (submitMessageDivSuccess) {
-          if (!localStorage.successfulTask) {
-            localStorage.setItem("successfulTask", "1");
-          } else {
-            let currentValue = parseInt(localStorage.getItem("successfulTask"));
-            let updatedValue = (currentValue + 1).toString();
-
-            deacreaseQueue();
-
-            localStorage.setItem("successfulTask", updatedValue);
-          }
-          window.close();
+      if (!submitMessageDivErr && submitButton.disabled && !submitMessageDivSuccess) {
+        submitButton.disabled = false;
+        deacreaseQueue();
+        sub(timeout);
+      } else if (
+        (submitMessageDivErr &&
+          submitMessageDivErr.innerText ===
+            "Whoops!\nYou have already completed this job. Please, choose another.\nOK") ||
+        (submitMessageDivErr &&
+          submitMessageDivErr.innerText ===
+            "Whoops!\nThis job is no longer available. Please, choose another.\nOK")
+      ) {
+        deacreaseQueue();
+        window.close();
+      } else if (submitMessageDivSuccess) {
+        if (!localStorage.successfulTask) {
+          localStorage.setItem("successfulTask", "1");
         } else {
-          if (
-            submitMessageDivErr &&
-            submitMessageDivErr.innerText ===
-              "Whoops!\nYour IP address does not match your home country. Are you using a VPN or Proxy?\nOK"
-          ) {
-            localStorage.setItem("ipIssue", true);
-          } else {
-            deacreaseQueue();
-            console.log("failed Task");
-          }
+          let currentValue = parseInt(localStorage.getItem("successfulTask"));
+          let updatedValue = (currentValue + 1).toString();
+
+          deacreaseQueue();
+
+          localStorage.setItem("successfulTask", updatedValue);
         }
-        function deacreaseQueue() {
-          let currentTasksWaitingToBeSubmitted = parseInt(
-            localStorage.getItem("tasksWaitingToBeSubmitted")
-          );
-          let tasksWaitingToBeSubmittedDecreased = (
-            currentTasksWaitingToBeSubmitted - 1
-          ).toString();
-          localStorage.setItem("tasksWaitingToBeSubmitted", tasksWaitingToBeSubmittedDecreased);
+        window.close();
+      } else {
+        if (
+          submitMessageDivErr &&
+          submitMessageDivErr.innerText ===
+            "Whoops!\nYour IP address does not match your home country. Are you using a VPN or Proxy?\nOK"
+        ) {
+          localStorage.setItem("ipIssue", true);
+        } else {
+          deacreaseQueue();
+          console.log("failed Task");
         }
-      }, 60000);
-    }, millisecondsUntilTarget);
-  });
+      }
+      function deacreaseQueue() {
+        let currentTasksWaitingToBeSubmitted = parseInt(
+          localStorage.getItem("tasksWaitingToBeSubmitted")
+        );
+        localStorage.setItem(
+          "tasksWaitingToBeSubmitted",
+          (currentTasksWaitingToBeSubmitted - 1).toString()
+        );
+      }
+    }, 60000);
+  }, millisecondsUntilTarget);
 }
+//});
 
 function getProofBoxesDetails() {
   let proofsBox = document.getElementsByClassName("form-group");
@@ -1497,7 +1581,7 @@ function placeProofs(obj, adsObj) {
   let randomAdNum = Math.floor(Math.random() * Object.keys(adsObj).length) + 1;
 
   for (let key in dataObj) {
-    let terms = ["site", "contact", "about", "both", "twopages"];
+    let terms = ["site", "__contact", "__about", "both", "twopages"];
     let value = dataObj[key];
     let foundTerm = null;
     console.log(dataObj);
@@ -1514,9 +1598,9 @@ function placeProofs(obj, adsObj) {
         dataObj[key] = replaceGclid(adsObj[randomAdNum].site);
       } else if (foundTerm === "twopages") {
         dataObj[key] = adsObj[randomAdNum].contact + "\n" + adsObj[randomAdNum].about;
-      } else if (foundTerm === "about") {
+      } else if (foundTerm === "__about") {
         dataObj[key] = adsObj[randomAdNum].about;
-      } else if (foundTerm === "contact") {
+      } else if (foundTerm === "__contact") {
         dataObj[key] = adsObj[randomAdNum].contact;
       } else {
         dataObj[key] = replaceGclid(adsObj[randomAdNum].site) + "\n" + adsObj[randomAdNum].contact;

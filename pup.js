@@ -37,6 +37,10 @@ const originProofs = {
       "https://web.dyp.im/turn-your-passion-for-beauty-into-a-business-top-beauty-products-to-sell-from-home-easy-peasy/",
     proof_2: "site",
   },
+  "https://maxfreelancing.com": {
+    proof_1: "https://maxfreelancing.com/exploring-creative-ways-to-make-money-on-fiverr/",
+    proof_2: "site",
+  },
 };
 
 async function getTask(website) {
@@ -49,8 +53,8 @@ async function getTask(website) {
     return response;
   } else {
     const browser = await puppeteer.launch({
-      timeout: 0,
-      args: ["--no-sandbox", "--disable-setuid-sand", "--single-process", "--no-zygote"],
+      //timeout: 0,
+      //args: ["--no-sandbox", "--disable-setuid-sand", "--single-process", "--no-zygote"],
       headless: "new",
       executablePath:
         process.env.NODE_ENV === "production"
@@ -112,7 +116,61 @@ async function getTask(website) {
       //     response.error = pcode;
       //   }
       // }
-      if (originProofs.hasOwnProperty(matchedOrigin)) {
+      if (matchedOrigin === "http://tinyurl.com") {
+        await page.goto("https://task.kayakwave.com/show.php", {
+          waitUntil: "domcontentloaded",
+          timeout: 60000,
+        });
+        // const elementHandle = await page.waitForSelector("script:nth-child(7)", {
+        //   timeout: 90000,
+        // });
+
+        // if (elementHandle) {
+        //   const textContent = await page.evaluate(
+        //     (element) => element.textContent.substring(528, 595),
+        //     elementHandle
+
+        let pcode = await page.evaluate("pcode");
+        if (pcode && pcode.includes("pw-")) {
+          response.pcode = pcode;
+          response.proof_1 = "site";
+        }
+        //}
+        // else {
+        //   console.log(`Element not found within the timeout for `);
+        // }
+      } else if (matchedOrigin === "https://business.apkpro.id") {
+        await page.goto(
+          "https://business.apkpro.id/cloud-big-data-technologies-overview-and-use-cases/",
+          { waitUntil: "domcontentloaded", timeout: 60000 }
+        );
+        let pcode = await page.evaluate(() => {
+          async function nextPage() {
+            let element = document.querySelector('p[style="color:red;"]');
+            if (element) {
+              if (element.textContent) {
+                let pcode = element.textContent.split(": ")[1];
+                await pcode;
+              }
+            } else {
+              let timer = document.querySelector("#timer");
+              if (timer) {
+                counter = 1;
+                startTimer();
+                setTimeout(nextPage, 1000);
+              } else {
+                return new Error("err");
+              }
+            }
+          }
+          nextPage();
+        });
+        if (pcode) {
+          response.pcode = pcode;
+        } else {
+          response.error = pcode;
+        }
+      } else if (originProofs.hasOwnProperty(matchedOrigin)) {
         if (originProofs.hasOwnProperty(matchedOrigin)) {
           const proofInfo = originProofs[matchedOrigin];
           if (typeof proofInfo === "string") {
@@ -176,6 +234,11 @@ async function getTask(website) {
             waitUntil: "domcontentloaded",
             timeout: 120000,
           });
+        } else if (matchedOrigin === "https://tripasik.com") {
+          await page.goto(matchedOrigin + "/blog", {
+            waitUntil: "domcontentloaded",
+            timeout: 120000,
+          });
         } else {
           await page.goto(matchedOrigin, { waitUntil: "networkidle0", timeout: 120000 });
         }
@@ -216,8 +279,7 @@ async function getTask(website) {
         if (!checkjQuery) {
           throw new Error("jQuery is not Defined!");
         }
-        //await page.waitForTimeout(2000);
-
+        await page.waitForTimeout(3000);
         await page.evaluate(clickAd);
         const pocdeValue = await page.evaluate(async () => {
           try {
@@ -283,13 +345,13 @@ async function getTask(website) {
       response.errorName = err.name || err.message;
     } finally {
       await browser.close();
+      //console.log(response);
       return response;
     }
-    //console.log(response);
   }
 }
 module.exports = getTask;
-//getTask("https://business.apkpro.id/start.php?job=b8329a5ed4ba&worker=209a6755");
+getTask("http://tinyurl.com/4zpaw5dt?job=9e8b4a68023d&worker=f3d3aa40");
 //await page.setBypassCSP(true);
 //https://hpk.yanacircle.com/?job=095736534761&worker=677dfb39
 //https://kuismedia.id/en/?job=ae105a03167a&worker=677dfb39
